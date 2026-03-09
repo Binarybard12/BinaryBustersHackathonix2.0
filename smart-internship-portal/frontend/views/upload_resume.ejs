@@ -68,14 +68,18 @@
   });
 
   form.addEventListener('submit', (e) => {
+    // Only intercept once for the animation
+    if (form.dataset.processing === 'true') return;
+    
     e.preventDefault();
     overlay.classList.remove('hidden');
+    form.dataset.processing = 'true';
     
     // GSAP Overlay Fade In
     gsap.from(overlay, { opacity: 0, duration: 0.5 });
 
-    // Mock Status Updates
-    const statuses = ["Extracting Raw Text", "Cleaning Tokens", "Identifying Skill Clusters", "Matching with Database", "Calculating ATS Fit"];
+    // Status Updates
+    const statuses = ["Extracting Raw Text", "Cleaning Tokens", "Identifying Skill Clusters", "Matching with Database", "Finalizing Analysis"];
     let step = 0;
     const interval = setInterval(() => {
         if (step < statuses.length) {
@@ -84,12 +88,9 @@
             step++;
         } else {
             clearInterval(interval);
-            // In real app, you would fetch response and then redirect
-            setTimeout(() => {
-                window.location.href = '/dashboard';
-            }, 1000);
+            form.submit(); // Real submission
         }
-    }, 1200);
+    }, 800);
   });
 
   // Entrance Animation

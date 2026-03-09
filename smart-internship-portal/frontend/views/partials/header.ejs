@@ -26,11 +26,15 @@
           <span class="text-xl font-bold text-slate-800">ProMatch AI</span>
         </div>
         <div class="hidden md:flex items-center space-x-8">
-          <a href="/" class="text-blue-600 font-semibold">Home</a>
-          <a href="/internship-listings" class="text-gray-600 hover:text-blue-600 font-medium">Internships</a>
-          <a href="/dashboard" class="text-gray-600 hover:text-blue-600 font-medium">Dashboard</a>
-          <a href="/login" class="btn-secondary">Login</a>
-          <a href="/upload-resume" class="btn-primary">Get Started</a>
+          <a href="/" class="nav-link">Home</a>
+          <a href="/internship-listings" class="nav-link">Internships</a>
+          <% if (isAuthenticated) { %>
+            <a href="/dashboard" class="nav-link">Dashboard</a>
+            <a href="/logout" class="btn-secondary">Logout</a>
+          <% } else { %>
+            <a href="/login" class="btn-secondary">Login</a>
+            <a href="/register" class="btn-primary">Get Started</a>
+          <% } %>
         </div>
         <div class="md:hidden">
             <!-- Mobile menu button -->

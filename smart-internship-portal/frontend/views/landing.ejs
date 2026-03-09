@@ -2,25 +2,37 @@
 
 <main class="overflow-hidden">
   <!-- Hero Section -->
-  <section class="relative bg-white pt-24 pb-32">
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
-      <div class="gs-hero-reveal inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm font-semibold mb-6 border border-blue-100 shadow-sm">
-        <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
-        <span>Powered by Advanced NLP</span>
+  <section class="relative min-h-[90vh] flex items-center justify-center overflow-hidden bg-slate-950">
+    <!-- Premium Image Background -->
+    <div class="absolute inset-0 opacity-40">
+        <img src="/images/hero-bg.png" class="w-full h-full object-cover" alt="Background">
+        <div class="absolute inset-0 bg-gradient-to-b from-slate-950/20 via-slate-950/80 to-slate-950"></div>
+    </div>
+    
+    <!-- Floating Decorative Elements -->
+    <div class="gs-float absolute top-20 left-[10%] w-32 h-32 bg-blue-500/10 blur-3xl rounded-full"></div>
+    <div class="gs-float-slow absolute bottom-20 right-[15%] w-64 h-64 bg-indigo-500/10 blur-3xl rounded-full"></div>
+
+    <div class="relative max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center z-10">
+      <div class="gs-hero-reveal inline-flex items-center space-x-2 px-4 py-2 bg-blue-500/10 text-blue-400 rounded-full text-sm font-bold mb-8 border border-blue-500/20 backdrop-blur-md">
+        <span class="w-2 h-2 bg-blue-400 rounded-full animate-ping"></span>
+        <span class="tracking-widest uppercase text-[10px]">Neural Match Engine v2.0</span>
       </div>
-      <h1 class="gs-hero-reveal text-5xl md:text-7xl font-extrabold text-slate-900 leading-tight tracking-tight mb-8">
-        The Future Of <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">Smart Hiring</span> <br> Is Here.
+      <h1 class="gs-hero-reveal text-6xl md:text-8xl font-black text-white leading-[0.9] tracking-tighter mb-8">
+        MATCHING <br> 
+        <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-400 via-indigo-400 to-sky-400">HUMAN POTENTIAL</span>
       </h1>
-      <p class="gs-hero-reveal text-xl text-slate-600 max-w-2xl leading-relaxed mb-12">
-        Bridge the gap between potential and opportunity with ProMatch AI. 
-        Matching students and recruiters through skills, not just keywords.
+      <p class="gs-hero-reveal text-lg md:text-xl text-slate-400 max-w-2xl font-medium leading-relaxed mb-12">
+        ProMatch AI uses semantic skill mapping to connect ambitious students with world-class recruiters. Stop applying. Start matching.
       </p>
-      <div class="gs-hero-reveal flex space-x-4">
-        <a href="/upload-resume" class="btn-primary flex items-center space-x-2 group">
-          <span>Upload Resume</span>
-          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+      <div class="gs-hero-reveal flex flex-col sm:flex-row space-y-4 sm:space-y-0 sm:space-x-6">
+        <a href="/upload-resume" class="px-10 py-5 bg-white text-slate-950 font-black rounded-2xl hover:scale-105 active:scale-95 transition-all shadow-2xl shadow-white/10 flex items-center space-x-3">
+          <span>Get Started Free</span>
+          <svg class="w-5 h-5" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="3" d="M13 7l5 5m0 0l-5 5m5-5H6"></path></svg>
         </a>
-        <a href="/internship-listings" class="btn-secondary">Browse Jobs</a>
+        <a href="/internship-listings" class="px-10 py-5 bg-slate-900/50 backdrop-blur-md border border-slate-800 text-slate-300 font-black rounded-2xl hover:bg-slate-800 transition-all">
+          Browse Roles
+        </a>
       </div>
     </div>
   </section>
@@ -71,6 +83,24 @@
     duration: 1.2,
     ease: "power3.out",
     delay: 0.2
+  });
+
+  // Floating Animations
+  gsap.to(".gs-float", {
+    y: -20,
+    duration: 2,
+    repeat: -1,
+    yoyo: true,
+    ease: "power1.inOut"
+  });
+
+  gsap.to(".gs-float-slow", {
+    y: 30,
+    x: 20,
+    duration: 4,
+    repeat: -1,
+    yoyo: true,
+    ease: "power1.inOut"
   });
 
   gsap.from(".gs-feature-card", {

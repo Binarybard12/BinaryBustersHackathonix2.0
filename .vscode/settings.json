@@ -6,5 +6,10 @@
     "python.autoComplete.extraPaths": [
         "smart-internship-portal",
         "${workspaceFolder}/smart-internship-portal"
-    ]
+    ],
+    "python.testing.pytestArgs": [
+        "smart-internship-portal"
+    ],
+    "python.testing.unittestEnabled": false,
+    "python.testing.pytestEnabled": true
 }

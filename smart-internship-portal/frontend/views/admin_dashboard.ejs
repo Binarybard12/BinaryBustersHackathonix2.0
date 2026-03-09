@@ -48,45 +48,19 @@
 
     <!-- Insights & Analytics -->
     <div class="grid lg:grid-cols-2 gap-8 mb-12">
-        <div class="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
-            <h3 class="text-slate-800 font-black mb-8 tracking-tight">Top Required Skills</h3>
-            <canvas id="skillsChart" width="400" height="250"></canvas>
+        <div class="dashboard-card p-10">
+            <h3 class="text-slate-800 font-black mb-8 tracking-tight flex items-center">
+                <span class="w-8 h-8 bg-blue-50 text-blue-600 rounded-lg flex items-center justify-center mr-3 text-xs">📊</span>
+                Skill Demand Heatmap
+            </h3>
+            <canvas id="skillsChart" height="250"></canvas>
         </div>
-        <div class="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
-            <h3 class="text-slate-800 font-black mb-8 tracking-tight">Recent High-Match Applicants</h3>
-            <div class="space-y-6">
-                <!-- Applicant Row -->
-                <div class="gs-applicant-row flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors border-l-4 border-emerald-400 group">
-                    <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-emerald-100 text-emerald-700 font-bold rounded-xl flex items-center justify-center">RS</div>
-                        <div>
-                            <p class="font-black text-slate-800 group-hover:text-blue-600 transition-colors">Rahul Sharma</p>
-                            <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">React Developer &bull; 91% Match</p>
-                        </div>
-                    </div>
-                    <a href="#" class="text-blue-600 font-black text-sm hover:underline">View Resume</a>
-                </div>
-                <div class="gs-applicant-row flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors border-l-4 border-blue-400 group">
-                    <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-blue-100 text-blue-700 font-bold rounded-xl flex items-center justify-center">AS</div>
-                        <div>
-                            <p class="font-black text-slate-800 group-hover:text-blue-600 transition-colors">Aditi Singh</p>
-                            <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Backend Engineer &bull; 85% Match</p>
-                        </div>
-                    </div>
-                    <a href="#" class="text-blue-600 font-black text-sm hover:underline">View Resume</a>
-                </div>
-                <div class="gs-applicant-row flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors border-l-4 border-indigo-400 group">
-                    <div class="flex items-center space-x-4">
-                        <div class="w-12 h-12 bg-indigo-100 text-indigo-700 font-bold rounded-xl flex items-center justify-center">RW</div>
-                        <div>
-                            <p class="font-black text-slate-800 group-hover:text-blue-600 transition-colors">Richa Waghmare</p>
-                            <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">AI Developer &bull; 82% Match</p>
-                        </div>
-                    </div>
-                    <a href="#" class="text-blue-600 font-black text-sm hover:underline">View Resume</a>
-                </div>
-            </div>
+        <div class="dashboard-card p-10">
+            <h3 class="text-slate-800 font-black mb-8 tracking-tight flex items-center">
+                <span class="w-8 h-8 bg-emerald-50 text-emerald-600 rounded-lg flex items-center justify-center mr-3 text-xs">📈</span>
+                Application Velocity
+            </h3>
+            <canvas id="velocityChart" height="250"></canvas>
         </div>
     </div>
   </div>
@@ -112,34 +86,49 @@
     delay: 0.5
   });
 
-  // Chart.js - Skills Popularity
-  const ctx = document.getElementById('skillsChart').getContext('2d');
-  new Chart(ctx, {
-    type: 'bar',
+  // Chart.js - Skills Demand
+  const skillsCtx = document.getElementById('skillsChart').getContext('2d');
+  new Chart(skillsCtx, {
+    type: 'doughnut',
     data: {
-      labels: ['Python', 'React', 'Node.js', 'Machine Learning', 'AWS', 'MongoDB'],
+      labels: ['Python', 'React', 'Node.js', 'ML', 'Cloud'],
       datasets: [{
-        label: 'Demand frequency',
-        data: [78, 65, 54, 42, 38, 30],
-        backgroundColor: [
-          'rgba(37, 99, 235, 0.8)',
-          'rgba(79, 70, 229, 0.8)',
-          'rgba(14, 165, 233, 0.8)',
-          'rgba(16, 185, 129, 0.8)',
-          'rgba(100, 116, 139, 0.8)',
-          'rgba(244, 63, 94, 0.8)'
-        ],
-        borderRadius: 12,
-        borderWidth: 0
+        data: [35, 25, 20, 15, 5],
+        backgroundColor: ['#2563eb', '#4f46e5', '#0ea5e9', '#10b981', '#64748b'],
+        borderWidth: 0,
+        hoverOffset: 20
       }]
     },
     options: {
-      responsive: true,
+      cutout: '70%',
       plugins: {
-        legend: { display: false }
-      },
+        legend: { position: 'bottom', labels: { usePointStyle: true, padding: 20, font: { weight: 'bold' } } }
+      }
+    }
+  });
+
+  // Chart.js - Velocity
+  const velocityCtx = document.getElementById('velocityChart').getContext('2d');
+  new Chart(velocityCtx, {
+    type: 'line',
+    data: {
+      labels: ['Jan', 'Feb', 'Mar', 'Apr', 'May', 'Jun'],
+      datasets: [{
+        label: 'Applications',
+        data: [120, 210, 180, 450, 390, 600],
+        borderColor: '#10b981',
+        tension: 0.4,
+        fill: true,
+        backgroundColor: 'rgba(16, 185, 129, 0.1)',
+        pointRadius: 4,
+        pointBackgroundColor: '#fff',
+        borderWidth: 4
+      }]
+    },
+    options: {
+      plugins: { legend: { display: false } },
       scales: {
-        y: { beginAtZero: true, grid: { display: false } },
+        y: { display: false },
         x: { grid: { display: false } }
       }
     }

@@ -1,7 +1,7 @@
 import spacy
 from typing import List, Dict, Any
 from sklearn.feature_extraction.text import TfidfVectorizer
-from backend.config import db
+from .config import db, students_collection, internships_collection, applications_collection
 
 # Load spaCy model (English)
 # Ensure `python -m spacy download en_core_web_sm` is run
@@ -22,22 +22,26 @@ SKILLS_DATABASE = {
 }
 
 def extract_skills(text: str) -> List[str]:
-    """Extracts skills from text using spaCy and keyword matching."""
-    doc = nlp(text.lower())
+    """Extracts skills from text using keyword matching with boundary awareness."""
+    text_lower = text.lower()
     extracted_skills = set()
     
-    # Token matching
-    tokens = [token.text for token in doc if not token.is_stop and not token.is_punct]
-    for token in tokens:
-        if token in SKILLS_DATABASE:
-            extracted_skills.add(token.capitalize())
-            
-    # Phrases matching (multi-word skills like 'machine learning')
     for skill in SKILLS_DATABASE:
-        if " " in skill and skill in text.lower():
-            extracted_skills.add(skill.title())
+        # Simple but effective check for skills (including multi-word and symbols)
+        # We look for the skill surrounded by non-alphanumeric characters or start/end of string
+        import re
+        # Escape skill for regex, and use lookahead/lookbehind for boundaries that handle symbols better than \b
+        pattern = r'(?:^|[^a-zA-Z0-9])' + re.escape(skill) + r'(?:$|[^a-zA-Z0-9])'
+        if re.search(pattern, text_lower):
+            # Special case formatting
+            if skill in ["c++", "c#", "node.js", ".net"]:
+                extracted_skills.add(skill)
+            elif len(skill) <= 3:
+                extracted_skills.add(skill.upper())
+            else:
+                extracted_skills.add(skill.title())
             
-    return list(extracted_skills)
+    return sorted(list(extracted_skills))
 
 def calculate_ats_score(text: str, skills: List[str]) -> float:
     """Calculates a general ATS-style score based on completeness and keywords."""
@@ -65,7 +69,7 @@ def calculate_ats_score(text: str, skills: List[str]) -> float:
 
 def recommend_internships(user: Dict[str, Any]) -> List[Dict[str, Any]]:
     """Matches user skills/ATS score against internship postings."""
-    internships = list(db.internships_collection.find())
+    internships = list(internships_collection.find())
     recommendations = []
     
     user_skills = set([s.lower() for s in user.get("skills", [])])
