@@ -1,0 +1,148 @@
+<%- include('partials/header') %>
+
+<main class="py-12">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <!-- Profile & ATS Section -->
+    <div class="grid lg:grid-cols-3 gap-8 mb-12">
+      <!-- User Profile Header -->
+      <div class="lg:col-span-2 dashboard-card flex flex-col md:flex-row items-center md:items-start space-y-6 md:space-y-0 md:space-x-8">
+        <div class="w-24 h-24 bg-blue-100 text-blue-600 rounded-3xl flex items-center justify-center text-3xl font-bold shadow-inner">
+          RW
+        </div>
+        <div class="flex-1 text-center md:text-left">
+          <div class="flex items-center justify-center md:justify-start space-x-3 mb-2">
+            <h1 class="text-3xl font-extrabold text-slate-900"><%= user.name %></h1>
+            <span class="px-3 py-1 bg-green-50 text-green-600 text-xs font-bold rounded-full border border-green-100 uppercase tracking-widest">Active Student</span>
+          </div>
+          <p class="text-slate-500 mb-6"><%= user.university %> &bull; Final Year Computer Science</p>
+          
+          <div class="flex flex-wrap justify-center md:justify-start gap-3">
+             <% user.skills.forEach(skill => { %>
+                <div class="gs-skill-card bg-slate-50 px-4 py-2 rounded-xl border border-slate-200 text-slate-700 font-semibold shadow-sm hover:border-blue-400 transition-colors">
+                    <%= skill %>
+                </div>
+             <% }); %>
+             <a href="/upload-resume" class="bg-blue-50 px-4 py-2 rounded-xl border border-blue-100 text-blue-600 font-bold hover:bg-blue-100 transition-all">+ Add Skill</a>
+          </div>
+        </div>
+      </div>
+
+      <!-- ATS Circular Score -->
+      <div class="dashboard-card flex flex-col items-center justify-center text-center">
+        <h3 class="text-slate-800 font-bold mb-4 uppercase tracking-tighter text-sm">ATS Resume Score</h3>
+        <div class="ats-circle mb-4">
+          <svg width="120" height="120">
+            <circle cx="60" cy="60" r="40" />
+            <circle id="ats-progress" class="progress" cx="60" cy="60" r="40" />
+          </svg>
+          <div class="absolute top-1/2 left-1/2 -translate-x-1/2 -translate-y-1/2">
+            <span id="ats-value" class="text-3xl font-black text-slate-800">0</span><span class="text-sm font-bold text-slate-400 font-neutral-500">%</span>
+          </div>
+        </div>
+        <p class="text-xs text-slate-400 font-medium">Top <span class="text-blue-600">12%</span> of candidates with your profile</p>
+      </div>
+    </div>
+
+    <!-- Recommended Internships -->
+    <div class="mb-12">
+        <div class="flex justify-between items-end mb-8">
+            <div>
+                <h2 class="text-2xl font-bold text-slate-900 mb-2">Recommended for You</h2>
+                <p class="text-slate-500">Based on your extracted skills and ATS performance</p>
+            </div>
+            <a href="/internship-listings" class="text-blue-600 font-bold text-sm hover:underline">View All Matches &rarr;</a>
+        </div>
+
+        <div class="grid md:grid-cols-3 gap-8">
+            <% internships.forEach((job, index) => { %>
+                <div class="gs-job-card bg-white rounded-3xl p-6 border border-slate-100 shadow-sm hover:shadow-xl transition-all group overflow-hidden relative">
+                    <div class="absolute top-0 right-0 p-4">
+                        <div class="bg-blue-600 text-white px-3 py-1 rounded-full text-xs font-black shadow-lg">
+                           <%= job.matchScore %>% Match
+                        </div>
+                    </div>
+                    <div class="w-12 h-12 bg-slate-50 border rounded-2xl flex items-center justify-center text-xl font-bold text-slate-400 mb-6 group-hover:scale-110 transition-transform">
+                        <%= job.company[0] %>
+                    </div>
+                    <h4 class="text-xl font-bold text-slate-800 group-hover:text-blue-600 transition-colors mb-2"><%= job.title %></h4>
+                    <p class="text-slate-500 text-sm mb-6 flex items-center">
+                        <svg class="w-4 h-4 mr-1 text-slate-300" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M17.657 16.657L13.414 20.9a1.998 1.998 0 01-2.827 0l-4.244-4.243a8 8 0 1111.314 0z"></path><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 11a3 3 0 11-6 0 3 3 0 016 0z"></path></svg>
+                        <%= job.location %>
+                    </p>
+                    
+                    <div class="flex flex-wrap gap-2 mb-8">
+                        <% job.skills.slice(0, 3).forEach(skill => { %>
+                            <span class="px-2 py-1 bg-slate-50 text-slate-400 text-[10px] font-bold rounded-lg border border-slate-100 uppercase tracking-tighter"><%= skill %></span>
+                        <% }); %>
+                    </div>
+
+                    <div class="space-y-4">
+                        <div class="w-full bg-slate-100 h-2 rounded-full overflow-hidden">
+                            <div class="gs-progress-bar h-full bg-gradient-to-r from-blue-400 to-blue-600 w-0" data-value="<%= job.matchScore %>"></div>
+                        </div>
+                        <button class="w-full py-3 bg-slate-900 text-white font-bold rounded-2xl hover:bg-black transition-colors">Apply Instant</button>
+                    </div>
+                </div>
+            <% }); %>
+        </div>
+    </div>
+  </div>
+</main>
+
+<script>
+  // GSAP Dashboard Animations
+  document.addEventListener('DOMContentLoaded', () => {
+    // 1. ATS Circle Animation
+    const currentAtsScore = parseFloat("<%= user.atsScore || 0 %>");
+    const perimeter = 2 * Math.PI * 40; // 251.2
+    const offset = perimeter - (currentAtsScore / 100) * perimeter;
+
+    gsap.to("#ats-progress", {
+      strokeDashoffset: offset,
+      duration: 2,
+      ease: "power2.out",
+      delay: 0.5
+    });
+
+    // 2. Count up ATS Value
+    const atsCounter = { val: 0 };
+    gsap.to(atsCounter, {
+      val: currentAtsScore,
+      duration: 2,
+      ease: "power2.out",
+      delay: 0.5,
+      onUpdate: () => {
+        document.getElementById('ats-value').textContent = Math.round(atsCounter.val);
+      }
+    });
+
+    // 3. Stagger Skill Cards
+    gsap.from(".gs-skill-card", {
+        opacity: 0,
+        x: -20,
+        stagger: 0.1,
+        duration: 0.8,
+        ease: "power3.out"
+    });
+
+    // 4. Stagger Job Cards
+    gsap.from(".gs-job-card", {
+        opacity: 0,
+        y: 40,
+        stagger: 0.15,
+        duration: 1,
+        ease: "power3.out"
+    });
+
+    // 5. Fill Progress Bars
+    gsap.to(".gs-progress-bar", {
+        width: (index, target) => target.getAttribute('data-value') + "%",
+        duration: 1.5,
+        stagger: 0.2,
+        ease: "power2.out",
+        delay: 1
+    });
+  });
+</script>
+
+<%- include('partials/footer') %>

@@ -1,0 +1,14 @@
+fastapi
+uvicorn
+pymongo
+pydantic
+pydantic[email]
+python-multipart
+pdfminer.six
+docx2txt
+spacy
+nltk
+scikit-learn
+requests
+beautifulsoup4
+pytest

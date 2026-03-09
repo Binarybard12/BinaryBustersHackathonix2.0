@@ -1,0 +1,89 @@
+<%- include('partials/header') %>
+
+<main class="overflow-hidden">
+  <!-- Hero Section -->
+  <section class="relative bg-white pt-24 pb-32">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 flex flex-col items-center text-center">
+      <div class="gs-hero-reveal inline-flex items-center space-x-2 px-3 py-1 bg-blue-50 text-blue-600 rounded-full text-sm font-semibold mb-6 border border-blue-100 shadow-sm">
+        <span class="w-2 h-2 bg-blue-500 rounded-full animate-pulse"></span>
+        <span>Powered by Advanced NLP</span>
+      </div>
+      <h1 class="gs-hero-reveal text-5xl md:text-7xl font-extrabold text-slate-900 leading-tight tracking-tight mb-8">
+        The Future Of <span class="bg-clip-text text-transparent bg-gradient-to-r from-blue-600 to-indigo-600">Smart Hiring</span> <br> Is Here.
+      </h1>
+      <p class="gs-hero-reveal text-xl text-slate-600 max-w-2xl leading-relaxed mb-12">
+        Bridge the gap between potential and opportunity with ProMatch AI. 
+        Matching students and recruiters through skills, not just keywords.
+      </p>
+      <div class="gs-hero-reveal flex space-x-4">
+        <a href="/upload-resume" class="btn-primary flex items-center space-x-2 group">
+          <span>Upload Resume</span>
+          <svg class="w-4 h-4 group-hover:translate-x-1 transition-transform" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M14 5l7 7m0 0l-7 7m7-7H3"></path></svg>
+        </a>
+        <a href="/internship-listings" class="btn-secondary">Browse Jobs</a>
+      </div>
+    </div>
+  </section>
+
+  <!-- Features Grid -->
+  <section class="py-24 bg-slate-50 border-t border-b border-slate-100">
+    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+      <div class="text-center mb-16">
+        <h2 class="text-3xl font-bold text-slate-900 mb-4">Precision-Matched Opportunities</h2>
+        <p class="text-slate-600 max-w-lg mx-auto">Leveraging state-of-the-art NLP to ensure your career starts on the right note.</p>
+      </div>
+      <div class="grid md:grid-cols-3 gap-8">
+        <!-- Feature 1 -->
+        <div class="gs-feature-card bg-white p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-blue-900/5 transition-all group">
+          <div class="w-14 h-14 bg-blue-600 rounded-2xl flex items-center justify-center text-white mb-6 group-hover:rotate-6 transition-transform shadow-lg shadow-blue-200">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"></path></svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-800 mb-3">AI Resume Parsing</h3>
+          <p class="text-slate-500 leading-relaxed">Extract text, skills, and experience from PDF & DOCX resumes with multi-layered NLP algorithms.</p>
+        </div>
+        <!-- Feature 2 -->
+        <div class="gs-feature-card bg-white p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-blue-900/5 transition-all group">
+         <div class="w-14 h-14 bg-indigo-600 rounded-2xl flex items-center justify-center text-white mb-6 group-hover:rotate-6 transition-transform shadow-lg shadow-indigo-200">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 10V3L4 14h7v7l9-11h-7z"></path></svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-800 mb-3">ATS Score Scoring</h3>
+          <p class="text-slate-500 leading-relaxed">See your resume through the eyes of recruiters. Our algorithm identifies gaps and suggests improvements.</p>
+        </div>
+        <!-- Feature 3 -->
+        <div class="gs-feature-card bg-white p-8 rounded-3xl border border-slate-100 hover:shadow-xl hover:shadow-blue-900/5 transition-all group">
+          <div class="w-14 h-14 bg-sky-500 rounded-2xl flex items-center justify-center text-white mb-6 group-hover:rotate-6 transition-transform shadow-lg shadow-sky-200">
+            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5H7a2 2 0 00-2 2v12a2 2 0 002 2h10a2 2 0 002-2V7a2 2 0 00-2-2h-2M9 5a2 2 0 002 2h2a2 2 0 002-2M9 5a2 2 0 012-2h2a2 2 0 012 2m-6 9l2 2 4-4"></path></svg>
+          </div>
+          <h3 class="text-xl font-bold text-slate-800 mb-3">Smart Matching</h3>
+          <p class="text-slate-500 leading-relaxed">Stop applying blindly. Get matched with roles based on your verified skills and professional trajectory.</p>
+        </div>
+      </div>
+    </div>
+  </section>
+</main>
+
+<script>
+  // GSAP Animations
+  gsap.from(".gs-hero-reveal", {
+    y: 40,
+    opacity: 0,
+    stagger: 0.15,
+    duration: 1.2,
+    ease: "power3.out",
+    delay: 0.2
+  });
+
+  gsap.from(".gs-feature-card", {
+    y: 60,
+    opacity: 0,
+    stagger: 0.2,
+    duration: 1,
+    ease: "back.out(1.7)",
+    scrollTrigger: {
+      trigger: ".gs-feature-card",
+      start: "top 80%"
+    }
+  });
+</script>
+
+<%- include('partials/footer') %>

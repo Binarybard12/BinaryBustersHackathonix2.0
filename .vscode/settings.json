@@ -1,0 +1,10 @@
+{
+    "python.analysis.extraPaths": [
+        "smart-internship-portal",
+        "${workspaceFolder}/smart-internship-portal"
+    ],
+    "python.autoComplete.extraPaths": [
+        "smart-internship-portal",
+        "${workspaceFolder}/smart-internship-portal"
+    ]
+}

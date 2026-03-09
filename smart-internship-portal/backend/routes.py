@@ -2,9 +2,9 @@ from fastapi import APIRouter, Depends, HTTPException, UploadFile, File
 from fastapi.security import OAuth2PasswordBearer, OAuth2PasswordRequestForm
 from pydantic import BaseModel, EmailStr, Field
 from typing import List, Optional
-from ..config import db
-from ..utils.resume_parser import parse_resume
-from ..nlp_engine import extract_skills, calculate_ats_score, recommend_internships
+from backend.config import db
+from backend.utils.resume_parser import parse_resume
+from backend.nlp_engine import extract_skills, calculate_ats_score, recommend_internships
 
 router = APIRouter()
 
@@ -39,7 +39,7 @@ class ApplicationCreateRequest(BaseModel):
     internship_id: str
 
 # ----- Helper Functions -----
-def get_current_user(token: str = Depends(auth_scheme)):
+def get_current_user(token: str = Depends(oauth_scheme)):
     # Placeholder for token verification
     # In a real implementation, decode JWT and fetch user from DB
     raise HTTPException(status_code=401, detail="Authentication required")
@@ -68,7 +68,7 @@ async def login_user(form_data: OAuth2PasswordRequestForm = Depends()):
 
 # ----- Resume Upload -----
 @router.post("/upload-resume", response_model=ResumeUploadResponse)
-async def upload_resume(file: UploadFile = File(...), token: str = Depends(auth_scheme)):
+async def upload_resume(file: UploadFile = File(...), token: str = Depends(oauth_scheme)):
     # In real scenario, verify token and fetch user ID
     content = await file.read()
     text = parse_resume(file.filename, content)
@@ -80,7 +80,7 @@ async def upload_resume(file: UploadFile = File(...), token: str = Depends(auth_
 
 # ----- Internship Endpoints -----
 @router.post("/create-internship")
-async def create_internship(payload: InternshipCreateRequest, token: str = Depends(auth_scheme)):
+async def create_internship(payload: InternshipCreateRequest, token: str = Depends(oauth_scheme)):
     # Verify admin token in real implementation
     internship = payload.dict()
     internship["matchScore"] = 0
@@ -88,7 +88,7 @@ async def create_internship(payload: InternshipCreateRequest, token: str = Depen
     return {"detail": "Internship created"}
 
 @router.get("/recommended-internships")
-async def get_recommendations(token: str = Depends(auth_scheme)):
+async def get_recommendations(token: str = Depends(oauth_scheme)):
     # Placeholder: fetch current user
     user = db.students_collection.find_one({"email": "dummy@example.com"})
     if not user:
@@ -97,7 +97,7 @@ async def get_recommendations(token: str = Depends(auth_scheme)):
     return recommendations
 
 @router.post("/apply")
-async def apply_internship(payload: ApplicationCreateRequest, token: str = Depends(auth_scheme)):
+async def apply_internship(payload: ApplicationCreateRequest, token: str = Depends(oauth_scheme)):
     # Placeholder user ID
     application = {
         "studentId": "dummy_student_id",
@@ -109,7 +109,7 @@ async def apply_internship(payload: ApplicationCreateRequest, token: str = Depen
     return {"detail": "Application submitted"}
 
 @router.get("/applications")
-async def view_applications(token: str = Depends(auth_scheme)):
+async def view_applications(token: str = Depends(oauth_scheme)):
     # Return all applications for admin (placeholder)
     apps = list(db.applications_collection.find())
     return apps

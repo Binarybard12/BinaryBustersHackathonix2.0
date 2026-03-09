@@ -1,0 +1,45 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* Custom styles and GSAP targets */
+.gs-reveal {
+  opacity: 0;
+  visibility: hidden;
+  will-change: transform, opacity;
+}
+
+.skill-card {
+  transition: transform 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
+}
+
+.skill-card:hover {
+  transform: translateY(-5px) scale(1.02);
+}
+
+.dashboard-card {
+  @apply bg-white p-6 rounded-2xl shadow-sm border border-gray-100 hover:shadow-md transition-shadow;
+}
+
+.ats-circle {
+  position: relative;
+  width: 120px;
+  height: 120px;
+}
+
+.ats-circle svg {
+  transform: rotate(-90deg);
+}
+
+.ats-circle circle {
+  fill: none;
+  stroke-width: 8;
+  stroke: #e2e8f0;
+}
+
+.ats-circle .progress {
+  stroke: #0ea5e9;
+  stroke-dasharray: 251.2;
+  stroke-dashoffset: 251.2; /* Animating with GSAP */
+  stroke-linecap: round;
+}

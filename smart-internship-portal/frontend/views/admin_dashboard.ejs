@@ -1,0 +1,149 @@
+<%- include('partials/header') %>
+
+<main class="py-12 bg-slate-50 min-h-screen">
+  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
+    <div class="flex flex-col md:flex-row md:items-center justify-between mb-12">
+      <div>
+          <h1 class="text-4xl font-black text-slate-900 tracking-tighter mb-2">Recruiter Command Centre</h1>
+          <p class="text-slate-500 font-medium">Tracking <span class="text-blue-600 font-bold"><%= stats.totalApplications %></span> active applications across <span class="text-blue-600 font-bold"><%= stats.totalInternships %></span> roles.</p>
+      </div>
+      <div class="flex items-center space-x-4 mt-6 md:mt-0">
+          <a href="/admin/create-internship" class="px-6 py-4 bg-slate-900 border border-slate-700 text-white font-black rounded-2xl flex items-center space-x-2 hover:bg-black transition-all shadow-xl shadow-slate-900/20 active:scale-95 group">
+            <span class="w-8 h-8 bg-blue-600 rounded-xl flex items-center justify-center text-sm mr-2 group-hover:scale-110 transition-transform">+</span>
+            <span>Post Internship</span>
+          </a>
+      </div>
+    </div>
+
+    <!-- Stats Grid -->
+    <div class="grid md:grid-cols-3 gap-8 mb-12">
+        <div class="gs-stat-card bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm flex items-center space-x-6">
+            <div class="w-16 h-16 bg-blue-50 text-blue-600 p-4 rounded-3xl flex items-center justify-center">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M12 4.354a4 4 0 110 5.292M15 21H3v-1a6 6 0 0112 0v1zm0 0h6v-1a6 6 0 00-9-5.197M13 7a4 4 0 11-8 0 4 4 0 018 0z"></path></svg>
+            </div>
+            <div>
+                <p class="text-slate-400 font-bold text-xs uppercase tracking-widest mb-1">Total Students</p>
+                <p class="text-3xl font-black text-slate-800 tabular-nums"><%= stats.totalStudents %></p>
+            </div>
+        </div>
+        <div class="gs-stat-card bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm flex items-center space-x-6">
+            <div class="w-16 h-16 bg-indigo-50 text-indigo-600 p-4 rounded-3xl flex items-center justify-center">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 13.255A23.931 23.931 0 0112 15c-3.183 0-6.22-.62-9-1.745M16 6V4a2 2 0 00-2-2h-4a2 2 0 00-2 2v2m4 6h.01M5 20h14a2 2 0 002-2V8a2 2 0 00-2-2H5a2 2 0 00-2 2v10a2 2 0 002 2z"></path></svg>
+            </div>
+            <div>
+                <p class="text-slate-400 font-bold text-xs uppercase tracking-widest mb-1">Active Roles</p>
+                <p class="text-3xl font-black text-slate-800 tabular-nums"><%= stats.totalInternships %></p>
+            </div>
+        </div>
+        <div class="gs-stat-card bg-white p-8 rounded-[32px] border border-slate-100 shadow-sm flex items-center space-x-6">
+            <div class="w-16 h-16 bg-emerald-50 text-emerald-600 p-4 rounded-3xl flex items-center justify-center">
+                <svg class="w-8 h-8" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 12l2 2 4-4m6 2a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
+            </div>
+            <div>
+                <p class="text-slate-400 font-bold text-xs uppercase tracking-widest mb-1">Success Rate</p>
+                <p class="text-3xl font-black text-slate-800 tabular-nums">24.5%</p>
+            </div>
+        </div>
+    </div>
+
+    <!-- Insights & Analytics -->
+    <div class="grid lg:grid-cols-2 gap-8 mb-12">
+        <div class="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
+            <h3 class="text-slate-800 font-black mb-8 tracking-tight">Top Required Skills</h3>
+            <canvas id="skillsChart" width="400" height="250"></canvas>
+        </div>
+        <div class="bg-white p-10 rounded-[40px] border border-slate-100 shadow-sm">
+            <h3 class="text-slate-800 font-black mb-8 tracking-tight">Recent High-Match Applicants</h3>
+            <div class="space-y-6">
+                <!-- Applicant Row -->
+                <div class="gs-applicant-row flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors border-l-4 border-emerald-400 group">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-emerald-100 text-emerald-700 font-bold rounded-xl flex items-center justify-center">RS</div>
+                        <div>
+                            <p class="font-black text-slate-800 group-hover:text-blue-600 transition-colors">Rahul Sharma</p>
+                            <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">React Developer &bull; 91% Match</p>
+                        </div>
+                    </div>
+                    <a href="#" class="text-blue-600 font-black text-sm hover:underline">View Resume</a>
+                </div>
+                <div class="gs-applicant-row flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors border-l-4 border-blue-400 group">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-blue-100 text-blue-700 font-bold rounded-xl flex items-center justify-center">AS</div>
+                        <div>
+                            <p class="font-black text-slate-800 group-hover:text-blue-600 transition-colors">Aditi Singh</p>
+                            <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">Backend Engineer &bull; 85% Match</p>
+                        </div>
+                    </div>
+                    <a href="#" class="text-blue-600 font-black text-sm hover:underline">View Resume</a>
+                </div>
+                <div class="gs-applicant-row flex items-center justify-between p-4 rounded-2xl hover:bg-slate-50 transition-colors border-l-4 border-indigo-400 group">
+                    <div class="flex items-center space-x-4">
+                        <div class="w-12 h-12 bg-indigo-100 text-indigo-700 font-bold rounded-xl flex items-center justify-center">RW</div>
+                        <div>
+                            <p class="font-black text-slate-800 group-hover:text-blue-600 transition-colors">Richa Waghmare</p>
+                            <p class="text-xs text-slate-400 font-bold uppercase tracking-wider">AI Developer &bull; 82% Match</p>
+                        </div>
+                    </div>
+                    <a href="#" class="text-blue-600 font-black text-sm hover:underline">View Resume</a>
+                </div>
+            </div>
+        </div>
+    </div>
+  </div>
+</main>
+
+<script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+<script>
+  // GSAP Admin Dashboard
+  gsap.from(".gs-stat-card", {
+    opacity: 0,
+    y: 20,
+    stagger: 0.1,
+    duration: 0.8,
+    ease: "power3.out"
+  });
+
+  gsap.from(".gs-applicant-row", {
+    opacity: 0,
+    x: 20,
+    stagger: 0.15,
+    duration: 0.8,
+    ease: "power2.out",
+    delay: 0.5
+  });
+
+  // Chart.js - Skills Popularity
+  const ctx = document.getElementById('skillsChart').getContext('2d');
+  new Chart(ctx, {
+    type: 'bar',
+    data: {
+      labels: ['Python', 'React', 'Node.js', 'Machine Learning', 'AWS', 'MongoDB'],
+      datasets: [{
+        label: 'Demand frequency',
+        data: [78, 65, 54, 42, 38, 30],
+        backgroundColor: [
+          'rgba(37, 99, 235, 0.8)',
+          'rgba(79, 70, 229, 0.8)',
+          'rgba(14, 165, 233, 0.8)',
+          'rgba(16, 185, 129, 0.8)',
+          'rgba(100, 116, 139, 0.8)',
+          'rgba(244, 63, 94, 0.8)'
+        ],
+        borderRadius: 12,
+        borderWidth: 0
+      }]
+    },
+    options: {
+      responsive: true,
+      plugins: {
+        legend: { display: false }
+      },
+      scales: {
+        y: { beginAtZero: true, grid: { display: false } },
+        x: { grid: { display: false } }
+      }
+    }
+  });
+</script>
+
+<%- include('partials/footer') %>
